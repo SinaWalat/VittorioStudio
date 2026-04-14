@@ -103,6 +103,29 @@ function App() {
         }
       });
 
+      // Footer: pattern reveals first, then logo appears after
+      gsap.set('.footer-pattern', { opacity: 0, filter: 'blur(20px)' });
+      gsap.set('.footer-logo', { opacity: 0 });
+
+      ScrollTrigger.create({
+        trigger: '.footer-section',
+        start: 'top 85%',
+        onEnter: () => {
+          const footerTl = gsap.timeline();
+          footerTl.to('.footer-pattern', {
+            opacity: 0.3,
+            filter: 'blur(0px)',
+            duration: 2,
+            ease: 'power2.out'
+          })
+          .to('.footer-logo', {
+            opacity: 1,
+            duration: 1.2,
+            ease: 'power2.out'
+          });
+        }
+      });
+
     }, appRef);
 
     return () => {

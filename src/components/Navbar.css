@@ -103,7 +103,7 @@
   text-decoration: none;
   text-align: right;
   letter-spacing: 1px;
-  transition: letter-spacing 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+  transition: opacity 0.3s ease;
   opacity: 0;
   position: relative;
   display: inline-block;
@@ -125,7 +125,6 @@
 
 .nav-overlay-link:hover {
   opacity: 0.8;
-  letter-spacing: 4px;
 }
 
 .nav-overlay-link:hover::after {

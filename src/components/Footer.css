@@ -18,12 +18,11 @@
   width: 100%;
   height: auto;
   align-self: end;
-  opacity: 0.3;
   pointer-events: none;
 }
 
 .footer-logo {
-  height: 80px;
+  height: 48px;
   width: auto;
   z-index: 2;
   pointer-events: none;
