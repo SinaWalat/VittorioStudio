@@ -1,21 +1,22 @@
 import React, { useState, useRef, useCallback } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import './Navbar.css';
 
 const navLinks = [
-  { label: 'Home', href: '#' },
-  { label: 'Projects', href: '#' },
-  { label: 'About', href: '#' },
-  { label: 'Services', href: '#' },
-  { label: 'Contact', href: '#' },
+  { label: 'Home', to: '/' },
+  { label: 'Projects', to: '/' },
+  { label: 'About', to: '/' },
+  { label: 'Services', to: '/' },
+  { label: 'Contact', to: '/contact' },
 ];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const overlayRef = useRef(null);
   const linksRef = useRef([]);
-
   const isAnimating = useRef(false);
+  const navigate = useNavigate();
 
   const openMenu = useCallback(() => {
     if (isAnimating.current) return;
@@ -23,12 +24,10 @@ const Navbar = () => {
     setIsOpen(true);
     const overlay = overlayRef.current;
 
-    // Kill any running tweens to prevent glitches
     gsap.killTweensOf(overlay);
     gsap.killTweensOf(linksRef.current);
     gsap.killTweensOf('.nav-close-btn');
 
-    // Make overlay visible and animate it down
     gsap.set(overlay, { visibility: 'visible', y: '-100%' });
     gsap.set(linksRef.current, { opacity: 0, filter: 'blur(8px)', willChange: 'filter, opacity' });
     gsap.set('.nav-close-btn', { opacity: 0, filter: 'blur(4px)' });
@@ -57,12 +56,11 @@ const Navbar = () => {
     }, '-=0.5');
   }, []);
 
-  const closeMenu = useCallback(() => {
+  const closeMenu = useCallback((destination) => {
     if (isAnimating.current) return;
     isAnimating.current = true;
     const overlay = overlayRef.current;
 
-    // Kill any running tweens
     gsap.killTweensOf(overlay);
     gsap.killTweensOf(linksRef.current);
     gsap.killTweensOf('.nav-close-btn');
@@ -72,10 +70,13 @@ const Navbar = () => {
         gsap.set(overlay, { visibility: 'hidden' });
         setIsOpen(false);
         isAnimating.current = false;
+        // Navigate AFTER menu is fully closed
+        if (destination) {
+          navigate(destination);
+        }
       }
     });
 
-    // Blur out links with stagger — last to first
     tl.to(linksRef.current, {
       opacity: 0,
       filter: 'blur(12px)',
@@ -94,17 +95,24 @@ const Navbar = () => {
       duration: 0.8,
       ease: 'power3.inOut',
     }, '-=0.2');
-  }, []);
+  }, [navigate]);
+
+  const handleLinkClick = useCallback((e, to) => {
+    e.preventDefault();
+    closeMenu(to);
+  }, [closeMenu]);
 
   return (
     <>
       <nav className="navbar container">
         <div className="nav-logo-wrapper">
-          <img
-            src="/images/Logo/VittorioLogo.svg"
-            alt="Vittorio Studio Logo"
-            className="nav-logo"
-          />
+          <Link to="/">
+            <img
+              src="/images/Logo/VittorioLogo.svg"
+              alt="Vittorio Studio Logo"
+              className="nav-logo"
+            />
+          </Link>
         </div>
         <div className="nav-menu-wrapper">
           <button className="nav-menu-btn" onClick={openMenu}>
@@ -115,23 +123,21 @@ const Navbar = () => {
 
       {/* Fullscreen Nav Overlay */}
       <div className="nav-overlay" ref={overlayRef}>
-        {/* Header matches navbar structure exactly */}
         <div className="nav-overlay-top container">
           <div style={{ height: '48px' }}></div>
-          <button className="nav-close-btn" onClick={closeMenu} aria-label="Close menu">
+          <button className="nav-close-btn" onClick={() => closeMenu()} aria-label="Close menu">
             <img src="/images/Assets/X.svg" alt="Close" className="nav-close-icon" />
           </button>
         </div>
 
-        {/* Navigation Links */}
         <div className="nav-overlay-links container">
           {navLinks.map((link, i) => (
             <a
               key={link.label}
-              href={link.href}
+              href={link.to}
               className="nav-overlay-link"
               ref={(el) => (linksRef.current[i] = el)}
-              onClick={closeMenu}
+              onClick={(e) => handleLinkClick(e, link.to)}
             >
               {link.label}
             </a>
@@ -143,3 +149,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
