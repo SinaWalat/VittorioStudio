@@ -44,22 +44,62 @@ const projects = [
   }
 ];
 
-const Home = () => {
+const Home = ({ preloaderDone }) => {
   const pageRef = useRef(null);
+  const hasAnimated = useRef(false);
 
+  // Set initial hidden state immediately on mount (before any paint)
   useLayoutEffect(() => {
-    let ctx = gsap.context(() => {
-      const targets = [
-        '.hero-image-wrapper',
+    const ctx = gsap.context(() => {
+      // Hide everything right away so nothing flashes
+      gsap.set('.hero-image-wrapper', { opacity: 0 });
+      gsap.set([
+        '.description-title',
+        '.description-text',
+        '.carousel-section',
+        '.divider-section'
+      ], { opacity: 0 });
+      gsap.set('.footer-pattern', { opacity: 0, filter: 'blur(20px)' });
+      gsap.set('.footer-logo', { opacity: 0 });
+    }, pageRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // Start animations only AFTER the preloader has finished
+  useLayoutEffect(() => {
+    if (!preloaderDone || hasAnimated.current) return;
+    hasAnimated.current = true;
+
+    const ctx = gsap.context(() => {
+      // --- First hero: smooth timed fade-in (it's already in viewport) ---
+      const allHeroes = gsap.utils.toArray('.hero-image-wrapper');
+      const firstHero = allHeroes[0];
+      const remainingHeroes = allHeroes.slice(1);
+
+      if (firstHero) {
+        gsap.to(firstHero, {
+          opacity: 1,
+          duration: 1.8,
+          delay: 0.3,
+          ease: 'power2.out',
+        });
+      }
+
+      // --- Scroll-triggered elements ---
+      const scrollSelectors = [
         '.description-title',
         '.description-text',
         '.carousel-section',
         '.divider-section'
       ].join(', ');
 
-      gsap.set(targets, { opacity: 0 });
+      const allScrollEls = [
+        ...remainingHeroes,
+        ...gsap.utils.toArray(scrollSelectors),
+      ];
 
-      ScrollTrigger.batch(targets, {
+      ScrollTrigger.batch(allScrollEls, {
         start: 'top 80%',
         onEnter: batch => {
           gsap.to(batch, {
@@ -72,10 +112,7 @@ const Home = () => {
         }
       });
 
-      // Footer animation
-      gsap.set('.footer-pattern', { opacity: 0, filter: 'blur(20px)' });
-      gsap.set('.footer-logo', { opacity: 0 });
-
+      // --- Footer animation ---
       ScrollTrigger.create({
         trigger: '.footer-section',
         start: 'top 85%',
@@ -101,7 +138,7 @@ const Home = () => {
       ctx.revert();
       ScrollTrigger.getAll().forEach(t => t.kill());
     };
-  }, []);
+  }, [preloaderDone]);
 
   return (
     <div ref={pageRef}>
