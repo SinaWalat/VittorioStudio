@@ -1,0 +1,27 @@
+.description-section {
+  width: 100%;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.description-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.description-title {
+  font-size: 56px;
+  text-align: left;
+  font-weight: normal;
+  margin-bottom: 8px;
+}
+
+.description-text {
+  font-size: 18px;
+  line-height: 1.3;
+  text-align: right;
+  max-width: 100%;
+}

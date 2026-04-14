@@ -1,0 +1,36 @@
+.footer-section {
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.footer-inner {
+  display: grid;
+  place-items: center;
+  height: 300px;
+}
+
+/* Both children stack in the same grid cell */
+.footer-inner > * {
+  grid-area: 1 / 1;
+}
+
+.footer-pattern {
+  width: 100%;
+  height: auto;
+  align-self: end;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.footer-logo {
+  height: 80px;
+  width: auto;
+  z-index: 2;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .footer-logo {
+    height: 50px;
+  }
+}
