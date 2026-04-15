@@ -17,6 +17,7 @@
   text-align: left;
   font-weight: normal;
   margin-bottom: 8px;
+  opacity: 0;
 }
 
 .description-text {
@@ -24,4 +25,5 @@
   line-height: 1.3;
   text-align: right;
   max-width: 100%;
+  opacity: 0;
 }

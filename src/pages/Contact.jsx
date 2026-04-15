@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Footer from '../components/Footer';
 import './Contact.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -19,8 +18,6 @@ const Contact = () => {
         '.info-item'
       ].join(', ');
 
-      gsap.set(targets, { opacity: 0 });
-
       ScrollTrigger.batch(targets, {
         start: 'top 80%',
         onEnter: batch => {
@@ -34,132 +31,62 @@ const Contact = () => {
         }
       });
 
-      // Footer animation
-      gsap.set('.footer-pattern', { opacity: 0, filter: 'blur(20px)' });
-      gsap.set('.footer-logo', { opacity: 0 });
-
-      ScrollTrigger.create({
-        trigger: '.footer-section',
-        start: 'top 85%',
-        onEnter: () => {
-          const footerTl = gsap.timeline();
-          footerTl.to('.footer-pattern', {
-            opacity: 0.3,
-            filter: 'blur(0px)',
-            duration: 2,
-            ease: 'power2.out'
-          })
-          .to('.footer-logo', {
-            opacity: 1,
-            duration: 1.2,
-            ease: 'power2.out'
-          });
-        }
-      });
-
     }, pageRef);
 
     return () => {
       ctx.revert();
-      ScrollTrigger.getAll().forEach(t => t.kill());
     };
   }, []);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission
-  };
 
   return (
     <div ref={pageRef}>
       <section className="contact-section container">
         <div className="contact-header">
-          <h1 className="contact-heading">Get in Touch</h1>
+          <h1 className="contact-heading">Contact Us</h1>
           <p className="contact-subtitle">
-            We'd love to hear about your vision. Share your project details and we'll craft something extraordinary together.
+            Let's start a conversation about your next project. We're here to help you bring your vision to life with precision and expertise.
           </p>
         </div>
 
         <div className="contact-body">
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <div className="form-row">
+          <div className="contact-form-side">
+            <form className="contact-form">
               <div className="form-group">
-                <label className="form-label" htmlFor="firstName">First Name</label>
-                <input 
-                  type="text" 
-                  id="firstName" 
-                  className="form-input" 
-                  placeholder="John"
-                  required 
-                />
+                <label className="form-label">Full Name</label>
+                <input type="text" className="form-input" placeholder="Your Name" />
               </div>
               <div className="form-group">
-                <label className="form-label" htmlFor="lastName">Last Name</label>
-                <input 
-                  type="text" 
-                  id="lastName" 
-                  className="form-input" 
-                  placeholder="Doe"
-                  required 
-                />
+                <label className="form-label">Email Address</label>
+                <input type="email" className="form-input" placeholder="Your Email" />
               </div>
-            </div>
+              <div className="form-group">
+                <label className="form-label">Message</label>
+                <textarea className="form-textarea" placeholder="Your Message"></textarea>
+              </div>
+              <button type="button" className="form-submit">
+                <span>Send Message</span>
+              </button>
+            </form>
+          </div>
 
-            <div className="form-group">
-              <label className="form-label" htmlFor="email">Email</label>
-              <input 
-                type="email" 
-                id="email" 
-                className="form-input" 
-                placeholder="john@example.com"
-                required 
-              />
+          <div className="contact-info-side">
+            <div className="info-group">
+              <h3 className="info-label">Email</h3>
+              <p className="info-item">info@vittoriostudio.com</p>
             </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="phone">Phone</label>
-              <input 
-                type="tel" 
-                id="phone" 
-                className="form-input" 
-                placeholder="+1 (555) 000-0000"
-              />
+            <div className="info-group">
+              <h3 className="info-label">Phone</h3>
+              <p className="info-item">+1 (234) 567-890</p>
             </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="message">Message</label>
-              <textarea 
-                id="message" 
-                className="form-input form-textarea" 
-                placeholder="Tell us about your project..."
-                rows="6"
-                required 
-              />
-            </div>
-
-            <button type="submit" className="form-submit">
-              Send Message
-            </button>
-          </form>
-
-          <div className="contact-info">
-            <div className="info-item">
-              <span className="info-label">Email</span>
-              <a href="mailto:info@vittoriostudio.com" className="info-value">info@vittoriostudio.com</a>
-            </div>
-            <div className="info-item">
-              <span className="info-label">Phone</span>
-              <a href="tel:+1234567890" className="info-value">+1 (234) 567-890</a>
-            </div>
-            <div className="info-item">
-              <span className="info-label">Location</span>
-              <span className="info-value">Erbil, Kurdistan Region, Iraq</span>
+            <div className="info-group">
+              <h3 className="info-label">Social</h3>
+              <p className="info-item">Instagram</p>
+              <p className="info-item">LinkedIn</p>
+              <p className="info-item">Behance</p>
             </div>
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 };

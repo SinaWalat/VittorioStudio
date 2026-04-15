@@ -9,6 +9,9 @@ import Home from './pages/Home';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import Services from './pages/Services';
+import Projects from './pages/Projects';
+import ProjectDetail from './pages/ProjectDetail';
+import Footer from './components/Footer';
 import './index.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -57,14 +60,16 @@ function App() {
 
     return () => {
       ctx.revert();
-      ScrollTrigger.getAll().forEach(t => t.kill());
       gsap.ticker.remove(raf);
       lenis.destroy();
     };
   }, [preloaderDone]);
 
-  // Scroll to top on route change
+  // Force scroll to top on refresh and route changes
   useLayoutEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
@@ -73,12 +78,17 @@ function App() {
       {!preloaderDone && <Preloader onComplete={handlePreloaderComplete} />}
       <div className="app-wrapper" ref={appRef}>
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home preloaderDone={preloaderDone} />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-        </Routes>
+        <div className="main-content">
+          <Routes>
+            <Route path="/" element={<Home preloaderDone={preloaderDone} />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/project/:id" element={<ProjectDetail />} />
+          </Routes>
+        </div>
+        <Footer />
       </div>
     </>
   );

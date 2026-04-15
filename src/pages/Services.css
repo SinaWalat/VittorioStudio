@@ -14,6 +14,7 @@
   letter-spacing: -1px;
   line-height: 1.05;
   margin-bottom: 0;
+  opacity: 0;
 }
 
 /* --- Description Body --- */
@@ -31,6 +32,7 @@
   line-height: 1.8;
   color: rgba(0, 0, 0, 0.6);
   text-align: left;
+  opacity: 0;
 }
 
 /* --- Service Block --- */
@@ -38,6 +40,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  opacity: 0;
 }
 
 .service-title {

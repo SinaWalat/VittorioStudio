@@ -60,16 +60,29 @@ const Services = () => {
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
-      const targets = [
-        '.services-heading',
-        '.services-intro',
-        '.service-block',
-      ].join(', ');
+      // Footer hidden state
+      gsap.set('.footer-pattern', { opacity: 0, filter: 'blur(20px)' });
+      gsap.set('.footer-logo', { opacity: 0 });
 
-      gsap.set(targets, { opacity: 0 });
+      // Smooth timed fade-in for heading
+      gsap.to('.services-heading', {
+        opacity: 1,
+        duration: 1,
+        delay: 0.3,
+        ease: 'power2.out',
+      });
 
-      ScrollTrigger.batch(targets, {
-        start: 'top 80%',
+      // Timed fade-in for intro
+      gsap.to('.services-intro', {
+        opacity: 1,
+        duration: 0.8,
+        delay: 0.5,
+        ease: 'power2.out',
+      });
+
+      // Scroll-triggered for service blocks (may be below fold)
+      ScrollTrigger.batch('.service-block', {
+        start: 'top 85%',
         onEnter: batch => {
           gsap.to(batch, {
             opacity: 1,
@@ -81,34 +94,10 @@ const Services = () => {
         }
       });
 
-      // Footer animation
-      gsap.set('.footer-pattern', { opacity: 0, filter: 'blur(20px)' });
-      gsap.set('.footer-logo', { opacity: 0 });
-
-      ScrollTrigger.create({
-        trigger: '.footer-section',
-        start: 'top 85%',
-        onEnter: () => {
-          const footerTl = gsap.timeline();
-          footerTl.to('.footer-pattern', {
-            opacity: 0.3,
-            filter: 'blur(0px)',
-            duration: 2,
-            ease: 'power2.out'
-          })
-          .to('.footer-logo', {
-            opacity: 1,
-            duration: 1.2,
-            ease: 'power2.out'
-          });
-        }
-      });
-
     }, pageRef);
 
     return () => {
       ctx.revert();
-      ScrollTrigger.getAll().forEach(t => t.kill());
     };
   }, []);
 
@@ -137,8 +126,6 @@ const Services = () => {
           ))}
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 };

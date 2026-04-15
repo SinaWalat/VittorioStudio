@@ -11,54 +11,31 @@ const About = () => {
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
-      const targets = [
-        '.about-heading',
-        '.about-paragraph',
-      ].join(', ');
-
-      gsap.set(targets, { opacity: 0 });
-
-      ScrollTrigger.batch(targets, {
-        start: 'top 80%',
-        onEnter: batch => {
-          gsap.to(batch, {
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: 'power2.out',
-            overwrite: 'auto'
-          });
-        }
-      });
-
-      // Footer animation
+      // Footer hidden state
       gsap.set('.footer-pattern', { opacity: 0, filter: 'blur(20px)' });
       gsap.set('.footer-logo', { opacity: 0 });
 
-      ScrollTrigger.create({
-        trigger: '.footer-section',
-        start: 'top 85%',
-        onEnter: () => {
-          const footerTl = gsap.timeline();
-          footerTl.to('.footer-pattern', {
-            opacity: 0.3,
-            filter: 'blur(0px)',
-            duration: 2,
-            ease: 'power2.out'
-          })
-          .to('.footer-logo', {
-            opacity: 1,
-            duration: 1.2,
-            ease: 'power2.out'
-          });
-        }
+      // Smooth timed fade-in for heading
+      gsap.to('.about-heading', {
+        opacity: 1,
+        duration: 1,
+        delay: 0.3,
+        ease: 'power2.out',
+      });
+
+      // Stagger fade-in for paragraphs
+      gsap.to('.about-paragraph', {
+        opacity: 1,
+        duration: 0.8,
+        delay: 0.6,
+        stagger: 0.2,
+        ease: 'power2.out',
       });
 
     }, pageRef);
 
     return () => {
       ctx.revert();
-      ScrollTrigger.getAll().forEach(t => t.kill());
     };
   }, []);
 
@@ -81,8 +58,6 @@ const About = () => {
           </p>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 };

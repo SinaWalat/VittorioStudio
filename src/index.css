@@ -56,3 +56,49 @@ button {
   min-height: 100vh;
   opacity: 0; /* Hidden initially for GSAP reveal */
 }
+
+.main-content {
+  flex: 1;
+}
+
+/* View Projects Link */
+.view-projects-wrapper {
+  padding: 60px 20px 80px;
+  display: flex;
+  justify-content: center;
+}
+
+.view-projects-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 52px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #000;
+  border: 1px solid #000;
+  border-radius: 30px;
+  text-decoration: none;
+  opacity: 0;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.view-projects-link:hover {
+  background-color: transparent;
+  color: #000;
+}
+
+.view-projects-arrow {
+  width: 18px;
+  height: auto;
+  filter: invert(1);
+  transition: filter 0.4s ease;
+}
+
+.view-projects-link:hover .view-projects-arrow {
+  filter: invert(0);
+}
