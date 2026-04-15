@@ -23,6 +23,7 @@
   color: rgba(0, 0, 0, 0.55);
   max-width: 520px;
   text-align: right;
+  opacity: 0;
 }
 
 /* --- Body Layout --- */
@@ -55,6 +56,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  opacity: 0;
 }
 
 .form-label {
@@ -110,6 +112,7 @@
   transition: background-color 0.4s ease, color 0.4s ease;
   margin-top: 8px;
   border-radius: 30px;
+  opacity: 0;
 }
 
 .form-submit:hover {
@@ -131,6 +134,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  opacity: 0;
 }
 
 .info-label {

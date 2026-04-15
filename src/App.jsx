@@ -78,17 +78,21 @@ function App() {
       {!preloaderDone && <Preloader onComplete={handlePreloaderComplete} />}
       <div className="app-wrapper" ref={appRef}>
         <Navbar />
-        <div className="main-content">
-          <Routes>
-            <Route path="/" element={<Home preloaderDone={preloaderDone} />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/project/:id" element={<ProjectDetail />} />
-          </Routes>
-        </div>
-        <Footer />
+        {preloaderDone && (
+          <>
+            <div className="main-content">
+              <Routes>
+                <Route path="/" element={<Home preloaderDone={preloaderDone} />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/project/:id" element={<ProjectDetail />} />
+              </Routes>
+            </div>
+            <Footer />
+          </>
+        )}
       </div>
     </>
   );
