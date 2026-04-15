@@ -7,6 +7,8 @@ import Preloader from './components/Preloader';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Contact from './pages/Contact';
+import About from './pages/About';
+import Services from './pages/Services';
 import './index.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -74,6 +76,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home preloaderDone={preloaderDone} />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
         </Routes>
       </div>
     </>

@@ -124,11 +124,11 @@ const Home = ({ preloaderDone }) => {
             duration: 2,
             ease: 'power2.out'
           })
-          .to('.footer-logo', {
-            opacity: 1,
-            duration: 1.2,
-            ease: 'power2.out'
-          });
+            .to('.footer-logo', {
+              opacity: 1,
+              duration: 1.2,
+              ease: 'power2.out'
+            });
         }
       });
 
@@ -147,7 +147,7 @@ const Home = ({ preloaderDone }) => {
           <Hero imageSrc={proj.heroImage} isFirst={idx === 0} />
           <Description title={proj.title} text={proj.text} />
           <Carousel images={proj.carouselImages} />
-          {idx < projects.length - 1 ? <Divider /> : <div style={{height: '60px'}}></div>}
+          {idx < projects.length - 1 ? <Divider /> : <div style={{ height: '60px' }}></div>}
         </React.Fragment>
       ))}
       <Footer />

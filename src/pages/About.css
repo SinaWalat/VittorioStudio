@@ -1,0 +1,51 @@
+.about-section {
+  padding-top: 40px;
+  padding-bottom: 100px;
+}
+
+/* --- Header --- */
+.about-header {
+  margin-bottom: 60px;
+}
+
+.about-heading {
+  font-size: 56px;
+  font-weight: 400;
+  letter-spacing: -1px;
+  line-height: 1.05;
+  margin-bottom: 0;
+}
+
+/* --- Description Body --- */
+.about-body {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 100%;
+  margin-left: auto;
+}
+
+.about-paragraph {
+  font-size: clamp(15px, 1.6vw, 18px);
+  font-weight: 300;
+  line-height: 1.8;
+  color: rgba(0, 0, 0, 0.6);
+  text-align: left;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .about-section {
+    padding-top: 20px;
+    padding-bottom: 60px;
+  }
+
+  .about-header {
+    margin-bottom: 40px;
+  }
+
+  .about-body {
+    max-width: 100%;
+    gap: 32px;
+  }
+}
