@@ -35,6 +35,12 @@
 }
 
 /* --- Form --- */
+.contact-form-wrapper {
+  flex: 1;
+  max-width: 600px;
+  width: 100%;
+}
+
 .contact-form {
   display: flex;
   flex-direction: column;
@@ -164,7 +170,13 @@ a.info-value:hover {
     gap: 60px;
   }
 
-  .contact-form {
+  .contact-form-wrapper {
+  flex: 1;
+  max-width: 600px;
+  width: 100%;
+}
+
+.contact-form {
     max-width: 100%;
     width: 100%;
   }
@@ -190,4 +202,33 @@ a.info-value:hover {
   .contact-header {
     margin-bottom: 40px;
   }
+}
+
+/* --- Success Message --- */
+.inline-success-message {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 36px;
+  background-color: #000;
+  color: #fff;
+  border-radius: 30px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: fadeInOut 6s ease forwards;
+  width: fit-content;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.form-submit.restored {
+  opacity: 1 !important;
 }

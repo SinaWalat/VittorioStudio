@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useState, useLayoutEffect, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Contact.css';
@@ -7,6 +7,21 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
   const pageRef = useRef(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (submitStatus === 'success') {
+      timer = setTimeout(() => {
+        setSubmitStatus(null);
+      }, 6000);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [submitStatus]);
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
@@ -48,9 +63,44 @@ const Contact = () => {
     };
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    setHasSubmitted(true);
+    
+    const formData = new FormData(e.target);
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    // Send the contact form submission to the specified email
+    const targetEmail = "sinawalat021@gmail.com"; 
+    
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${targetEmail}`, {
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: json
+      });
+      
+      const result = await response.json();
+      
+      if (result.success === "true") {
+        setSubmitStatus('success');
+        e.target.reset();
+      } else {
+        setSubmitStatus('error');
+        console.error("Submission failed");
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -64,66 +114,84 @@ const Contact = () => {
         </div>
 
         <div className="contact-body">
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <div className="form-row">
+          <div className="contact-form-wrapper">
+
+            
+            <form className="contact-form" onSubmit={handleSubmit}>
+              <div className="form-row">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="firstName">First Name</label>
+                  <input 
+                    type="text" 
+                    id="firstName" 
+                    name="First Name"
+                    className="form-input" 
+                    placeholder="John"
+                    required 
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="lastName">Last Name</label>
+                  <input 
+                    type="text" 
+                    id="lastName" 
+                    name="Last Name"
+                    className="form-input" 
+                    placeholder="Doe"
+                    required 
+                  />
+                </div>
+              </div>
+
               <div className="form-group">
-                <label className="form-label" htmlFor="firstName">First Name</label>
+                <label className="form-label" htmlFor="email">Email</label>
                 <input 
-                  type="text" 
-                  id="firstName" 
+                  type="email" 
+                  id="email" 
+                  name="Email"
                   className="form-input" 
-                  placeholder="John"
+                  placeholder="john@example.com"
                   required 
                 />
               </div>
+
               <div className="form-group">
-                <label className="form-label" htmlFor="lastName">Last Name</label>
+                <label className="form-label" htmlFor="phone">Phone</label>
                 <input 
-                  type="text" 
-                  id="lastName" 
+                  type="tel" 
+                  id="phone" 
+                  name="Phone"
                   className="form-input" 
-                  placeholder="Doe"
+                  placeholder="+1 (555) 000-0000"
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="message">Message</label>
+                <textarea 
+                  id="message" 
+                  name="Message"
+                  className="form-input form-textarea" 
+                  placeholder="Tell us about your project..."
+                  rows="6"
                   required 
                 />
               </div>
-            </div>
 
-            <div className="form-group">
-              <label className="form-label" htmlFor="email">Email</label>
-              <input 
-                type="email" 
-                id="email" 
-                className="form-input" 
-                placeholder="john@example.com"
-                required 
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="phone">Phone</label>
-              <input 
-                type="tel" 
-                id="phone" 
-                className="form-input" 
-                placeholder="+1 (555) 000-0000"
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="message">Message</label>
-              <textarea 
-                id="message" 
-                className="form-input form-textarea" 
-                placeholder="Tell us about your project..."
-                rows="6"
-                required 
-              />
-            </div>
-
-            <button type="submit" className="form-submit">
-              Send Message
-            </button>
-          </form>
+              {submitStatus === 'success' ? (
+                <div className="inline-success-message">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <span>Submitted Successfully</span>
+                </div>
+              ) : (
+                <button type="submit" className={`form-submit ${hasSubmitted ? 'restored' : ''}`} disabled={isSubmitting}>
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </button>
+              )}
+            </form>
+          </div>
 
           <div className="contact-info">
             <div className="info-item">
