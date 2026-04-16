@@ -80,7 +80,8 @@ const Services = () => {
         ease: 'power2.out',
       });
 
-      // Scroll-triggered for service blocks (may be below fold)
+      // Scroll-triggered for service blocks
+      let isFirstBatch = true;
       ScrollTrigger.batch('.service-block', {
         start: 'top 85%',
         onEnter: batch => {
@@ -88,9 +89,11 @@ const Services = () => {
             opacity: 1,
             duration: 0.8,
             stagger: 0.15,
+            delay: isFirstBatch ? 0.7 : 0,
             ease: 'power2.out',
             overwrite: 'auto'
           });
+          isFirstBatch = false;
         }
       });
 
