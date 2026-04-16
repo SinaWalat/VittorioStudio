@@ -96,12 +96,12 @@ const Home = ({ preloaderDone }) => {
 
   return (
     <div ref={pageRef}>
-      {projects.map((proj, idx) => (
+      {projects.slice(0, 3).map((proj, idx, arr) => (
         <React.Fragment key={idx}>
           <Hero imageSrc={proj.heroImage} isFirst={idx === 0} />
           <Description title={proj.title} text={proj.text} />
           <Carousel images={proj.carouselImages} />
-          {idx < projects.length - 1 ? <Divider /> : <div style={{ height: '60px' }}></div>}
+          {idx < arr.length - 1 ? <Divider /> : <div style={{ height: '60px' }}></div>}
         </React.Fragment>
       ))}
       <div className="view-projects-wrapper container">
