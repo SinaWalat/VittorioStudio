@@ -7,7 +7,7 @@ import './Projects.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const projectNames = ['Salvatore', 'Lumina', 'Oasis'];
+const projectNames = ['Salvatore', 'Lumina', 'Oasis', 'Serenity', 'Prestige', 'Sanctuary', 'Nexus', 'Apex', 'Azure', 'Savor', 'Galleria', 'Zenith', 'Elysian', 'Vanguard'];
 
 const Projects = () => {
   const pageRef = useRef(null);

@@ -19,35 +19,62 @@ const Home = ({ preloaderDone }) => {
     if (!preloaderDone) return;
 
     const ctx = gsap.context(() => {
-      // --- First hero: smooth timed fade-in (it's already in viewport) ---
+      // --- First project section: strict timed sequence ---
       const allHeroes = gsap.utils.toArray('.hero-image-wrapper');
-      const firstHero = allHeroes[0];
-      const remainingHeroes = allHeroes.slice(1);
+      const allTitles = gsap.utils.toArray('.description-title');
+      const allTexts = gsap.utils.toArray('.description-text');
+      const allCarousels = gsap.utils.toArray('.carousel-section');
+      const allDividers = gsap.utils.toArray('.divider-section');
 
-      if (firstHero) {
-        gsap.to(firstHero, {
+      const tl = gsap.timeline({ delay: 0.3 });
+
+      // First hero image
+      if (allHeroes[0]) {
+        tl.to(allHeroes[0], {
           opacity: 1,
           duration: 1.8,
-          delay: 0.3,
           ease: 'power2.out',
         });
       }
 
-      // --- Scroll-triggered elements ---
-      const scrollSelectors = [
-        '.description-title',
-        '.description-text',
-        '.carousel-section',
-        '.divider-section',
-        '.view-projects-link'
-      ].join(', ');
+      // First title
+      if (allTitles[0]) {
+        tl.to(allTitles[0], {
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+        }, '-=1.0');
+      }
 
-      const allScrollEls = [
-        ...remainingHeroes,
-        ...gsap.utils.toArray(scrollSelectors),
+      // First description text
+      if (allTexts[0]) {
+        tl.to(allTexts[0], {
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+        }, '-=0.5');
+      }
+
+      // First carousel
+      if (allCarousels[0]) {
+        tl.to(allCarousels[0], {
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+        }, '-=0.4');
+      }
+
+      // --- Remaining elements: scroll-triggered ---
+      const remainingEls = [
+        ...allHeroes.slice(1),
+        ...allTitles.slice(1),
+        ...allTexts.slice(1),
+        ...allCarousels.slice(1),
+        ...allDividers,
+        ...gsap.utils.toArray('.view-projects-link'),
       ];
 
-      ScrollTrigger.batch(allScrollEls, {
+      ScrollTrigger.batch(remainingEls, {
         start: 'top 80%',
         onEnter: batch => {
           gsap.to(batch, {

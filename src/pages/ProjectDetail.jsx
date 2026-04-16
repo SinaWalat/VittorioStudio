@@ -61,7 +61,9 @@ const ProjectDetail = () => {
     <div ref={pageRef}>
       <Hero imageSrc={project.heroImage} isFirst={true} />
       <Description title={project.title} text={project.text} />
-      <Carousel images={project.carouselImages} />
+      {project.carouselImages && project.carouselImages.length > 0 && (
+        <Carousel images={project.carouselImages} />
+      )}
       <div style={{ height: '60px' }}></div>
     </div>
   );

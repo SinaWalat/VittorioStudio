@@ -20,9 +20,9 @@
 /* --- Project List --- */
 .projects-list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 16px;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .project-item {
