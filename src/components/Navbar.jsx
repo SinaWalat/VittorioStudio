@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import './Navbar.css';
@@ -13,10 +13,28 @@ const navLinks = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const overlayRef = useRef(null);
   const linksRef = useRef([]);
   const isAnimating = useRef(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Check initial scroll position
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const openMenu = useCallback(() => {
     if (isAnimating.current) return;
@@ -65,15 +83,15 @@ const Navbar = () => {
     gsap.killTweensOf(linksRef.current);
     gsap.killTweensOf('.nav-close-btn');
 
+    if (destination) {
+      navigate(destination);
+    }
+
     const tl = gsap.timeline({
       onComplete: () => {
         gsap.set(overlay, { visibility: 'hidden' });
         setIsOpen(false);
         isAnimating.current = false;
-        // Navigate AFTER menu is fully closed
-        if (destination) {
-          navigate(destination);
-        }
       }
     });
 
@@ -104,8 +122,9 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar container">
-        <div className="nav-logo-wrapper">
+      <header className={`header-wrapper ${isScrolled ? 'scrolled' : ''}`}>
+        <nav className="navbar container">
+          <div className="nav-logo-wrapper">
           <Link to="/">
             <img
               src="/images/Logo/VittorioLogo.svg"
@@ -119,7 +138,8 @@ const Navbar = () => {
             MENU
           </button>
         </div>
-      </nav>
+        </nav>
+      </header>
 
       {/* Fullscreen Nav Overlay */}
       <div className="nav-overlay" ref={overlayRef}>

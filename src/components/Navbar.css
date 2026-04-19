@@ -1,9 +1,25 @@
+/* Header Wrapper & Glassmorphism */
+.header-wrapper {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+  transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+.header-wrapper.scrolled {
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   width: 100%;
 }
 

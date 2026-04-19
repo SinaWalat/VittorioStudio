@@ -57,6 +57,12 @@ button {
   opacity: 0; /* Hidden initially for GSAP reveal */
 }
 
+.page-transition-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .main-content {
   flex: 1;
 }
